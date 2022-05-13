@@ -7,18 +7,18 @@ I have renamed this card to remove the emphasis on BOM. This is a generic card t
 
 NON-Australian Users: This card and docs has always been a generic card with an emphasis on BOM in Australia however it will work with ANY weather provider that can supply the sensors.
 
-AUSTRALIA ONLY NOTE: I have made some changes to the docs so that this card now uses the new [BOM Component by Brendan](https://github.com/bremor/bureau_of_meteorology )
-This new repo can be added to HACS See also the excellent new [BOM Radar Card by @therat here](https://github.com/Makin-Things/bom-radar-card )
+AUSTRALIA ONLY NOTE: I have made some changes to the docs so that this card now uses the new [BOM Component by Brendan](https://github.com/bremor/bureau_of_meteorology ).
+This new repo can be added to HACS See also the excellent new [BOM Radar Card by @therat](https://github.com/Makin-Things/bom-radar-card ).
 
-I have updated the lovelace.yaml and templates (NOTE THESE AE EXAMPLES and can be customised for your needs) as well for this new component.
+I have updated the `lovelace.yaml` and templates. (NOTE THESE ARE EXAMPLES and can be customised for your needs) as well for this new component.
 
 When you install Brendans new BOM Component, you will get sensors that look like this:
-For the Observations, they will be named for the BOM Observation station like.. sensor.gosford_temperature as an example.
-For the Forecast, they will be named by your local suburb determined from the entered Latitude and Longitude (which will default to your HA configuration) like sensor.kariong_icon_descriptor_0
+For the Observations, they will be named for the BOM Observation station like `sensor.gosford_temperature` as an example.
+For the Forecast, they will be named by your local suburb determined from the entered Latitude and Longitude (which will default to your HA configuration) like `sensor.kariong_icon_descriptor_0`
 
 It MAY be that there will be some new conditions from BOM. If icons are missing or you get any errors please let me know.
 
-IF you are using the old card as well with the 7 days forecast, note the new component only provides 6 days now and additionally I have added some icons so make sure you grab the bom_icons.zip file and extract the contents to /config/www/bom_icons The animated icons for the card itself are unchanged.
+If you are using the old card as well with the 7 days forecast, note the new component only provides 6 days now and additionally I have added some icons so make sure you grab the bom_icons.zip file and extract the contents to /config/www/bom_icons The animated icons for the card itself are unchanged.
 
 ![image](bom-weather.png)
 
@@ -368,30 +368,30 @@ show_decimals: false
 --------------------------
 The current condition columns are specified by 'slots'.  There are 5 left column slots (designated l1 - l5) and 5 right column
 slots (designated r1 - r5).  There are currently 10 possible values that can be assigned to a slot.  These are:
-- daytime_high
-- daytime_low
-- temp_next
-- temp_following
-- wind
-- wind_kt
-- visibility
-- sun_next (the next sun event ... sunset or sunrise)
-- sun_following (The following sun event ... if sun_next is a sunset then this will be the following sunrise and vice versa)
-- pop (probability of precipitation) Shows % possible rainfall today and the actual recorded rainfall
-- popforecast Shows % possible rainfall today and forecast rainfall
-- humidity
-- pressure
-- uv_summary
-- fire_summary
-- possible_today (possible rainfall today)
-- possible_tomorrow (possible rainfall tomorrow)
-- rainfall (actual rainfall today)
-- custom1 (populates using config fields custom1_icon, custom1_value and custom1_units)
-- custom2 (populates using config fields custom2_icon, custom2_value and custom2_units)
-- empty (empty slot... the slot below does not rise to fill the space)
-- remove (same as empty but the slot below rises to take the place of the slot)
+- `daytime_high`
+- `daytime_low`
+- `temp_next`
+- `temp_following`
+- `wind`
+- `wind_kt`
+- `visibility`
+- `sun_next` (the next sun event ... sunset or sunrise)
+- `sun_following` (The following sun event ... if sun_next is a sunset then this will be the following sunrise and vice versa)
+- `pop` (probability of precipitation) Shows % possible rainfall today and the actual recorded rainfall
+- `popforecast` Shows % possible rainfall today and forecast rainfall
+- `humidity`
+- `pressure`
+- `uv_summary`
+- `fire_summary`
+- `possible_today` (possible rainfall today)
+- `possible_tomorrow` (possible rainfall tomorrow)
+- `rainfall` (actual rainfall today)
+- `custom1` (populates using config fields `custom1_icon`, `custom1_value` and `custom1_units`)
+- `custom2` (populates using config fields `custom2_icon`, `custom2_value` and `custom2_units`)
+- `empty` (empty slot... the slot below does not rise to fill the space)
+- `remove` (same as empty but the slot below rises to take the place of the slot)
 
-If configuring with Slots please ensure to fill all available positions, the slots that you do not need can be filled with "remove" to ensure that they remain blank.
+If configuring with Slots, please ensure to fill all available positions, the slots that you do not need can be filled with "remove" to ensure that they remain blank.
 
 [My FULL Lovelace configuration for this card is here](https://github.com/DavidFW1960/bom-weather-card/blob/master/lovelace.yaml) Cut and paste it into your lovelace.
 
@@ -504,21 +504,21 @@ entities:
   - sensor.bom_forecast_4
   - sensor.bom_forecast_5
   - type: 'custom:hui-element'
-	card_type: conditional
-	conditions:
-	  - entity: sensor.bom_forecast_6
-		state_not: "unknown°/unknown°/unknown%"
-	card:
-	  type: entities
-	  card_mod:
-		style: |
-		  ha-card {
-			box-shadow: none;
-			--ha-card-background: rgba(0, 0, 0, 0);
-			margin: -16px -16px -16px -16px;
-		  }
-	  entities:
-	  - entity: sensor.bom_forecast_6
+    card_type: conditional
+    conditions:
+      - entity: sensor.bom_forecast_6
+        state_not: "unknown°/unknown°/unknown%"
+    card:
+      type: entities
+      card_mod:
+        style: |
+          ha-card {
+            box-shadow: none;
+            --ha-card-background: rgba(0, 0, 0, 0);
+            margin: -16px -16px -16px -16px;
+          }
+      entities:
+        - entity: sensor.bom_forecast_6
 ~~~~~
 
 ![image](bom_forecast.png)
@@ -557,23 +557,23 @@ My Lovelace Code to display these is here:
     card:
       type: 'custom:hui-entities-card'
       entities:
-	- entity: sensor.bom_forecast_0
-	- entity: sensor.beaufort
-	  name: "${'Beaufort force:' + '\xa0'.repeat(2) + (vars[0] == 12 ? 'Hurricane Force' : vars[0] == 11 ? 'Violent Storm' : vars[0] == 10 ? 'Storm, whole gale' : vars[0] == 9 ? 'Strong/severe gale' : vars[0] == 8 ? 'Gale/ fresh gale' : vars[0] == 7 ? 'High wind, moderate/near gale' : vars[0] == 6 ? 'Strong breeze' : vars[0] == 5 ? 'Fresh breeze' : vars[0] == 4 ? 'Moderate breeze' : vars[0] == 3 ? 'Gentle breeze' : vars[0] == 2 ? 'Light breeze' : vars[0] == 1 ? 'Light air' : 'Calm')}"
-	- entity: sensor.heatindex
-	  name: "${'Heat Index:' + '\xa0'.repeat(2) + vars[2]}"
-	- entity: sensor.gosford_temp
-	  name: "${'BOM Update:' + '\xa0'.repeat(2) + ( new Date(vars[3]).toLocaleTimeString('en-US') ) + '\xa0'.repeat(2) + 'Current Temp' }"
-	- entity: sensor.illuminance
-	  type: "custom:template-entity-row"
-	  secondary: "{{ states('weather.kariong') }} weather.kariong"
-	  state: "{{ '{:,}'.format((states('sensor.illuminance'))|int) }} lx"
-	  icon: mdi:brightness-5
-	- entity: sensor.estimated_illuminance
-	  type: "custom:template-entity-row"
-	  secondary: "{{ states('weather.home') }} weather.home"
-	  state: "{{ '{:,}'.format((states('sensor.estimated_illuminance'))|int) }} lx"
-	  icon: mdi:brightness-5
+        - entity: sensor.bom_forecast_0
+        - entity: sensor.beaufort
+          name: "${'Beaufort force:' + '\xa0'.repeat(2) + (vars[0] == 12 ? 'Hurricane Force' : vars[0] == 11 ? 'Violent Storm' : vars[0] == 10 ? 'Storm, whole gale' : vars[0] == 9 ? 'Strong/severe gale' : vars[0] == 8 ? 'Gale/ fresh gale' : vars[0] == 7 ? 'High wind, moderate/near gale' : vars[0] == 6 ? 'Strong breeze' : vars[0] == 5 ? 'Fresh breeze' : vars[0] == 4 ? 'Moderate breeze' : vars[0] == 3 ? 'Gentle breeze' : vars[0] == 2 ? 'Light breeze' : vars[0] == 1 ? 'Light air' : 'Calm')}"
+        - entity: sensor.heatindex
+          name: "${'Heat Index:' + '\xa0'.repeat(2) + vars[2]}"
+        - entity: sensor.gosford_temp
+          name: "${'BOM Update:' + '\xa0'.repeat(2) + ( new Date(vars[3]).toLocaleTimeString('en-US') ) + '\xa0'.repeat(2) + 'Current Temp' }"
+        - entity: sensor.illuminance
+          type: "custom:template-entity-row"
+          secondary: "{{ states('weather.kariong') }} weather.kariong"
+          state: "{{ '{:,}'.format((states('sensor.illuminance'))|int) }} lx"
+          icon: mdi:brightness-5
+        - entity: sensor.estimated_illuminance
+          type: "custom:template-entity-row"
+          secondary: "{{ states('weather.home') }} weather.home"
+          state: "{{ '{:,}'.format((states('sensor.estimated_illuminance'))|int) }} lx"
+          icon: mdi:brightness-5
   - type: history-graph
     title: Outdoor Illuminance
     hours_to_show: 48
