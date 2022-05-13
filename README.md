@@ -504,21 +504,21 @@ entities:
   - sensor.bom_forecast_4
   - sensor.bom_forecast_5
   - type: 'custom:hui-element'
-	card_type: conditional
-	conditions:
-	  - entity: sensor.bom_forecast_6
-		state_not: "unknown°/unknown°/unknown%"
-	card:
-	  type: entities
-	  card_mod:
-		style: |
-		  ha-card {
-			box-shadow: none;
-			--ha-card-background: rgba(0, 0, 0, 0);
-			margin: -16px -16px -16px -16px;
-		  }
-	  entities:
-	  - entity: sensor.bom_forecast_6
+    card_type: conditional
+    conditions:
+      - entity: sensor.bom_forecast_6
+        state_not: "unknown°/unknown°/unknown%"
+    card:
+      type: entities
+      card_mod:
+        style: |
+          ha-card {
+            box-shadow: none;
+            --ha-card-background: rgba(0, 0, 0, 0);
+            margin: -16px -16px -16px -16px;
+          }
+      entities:
+        - entity: sensor.bom_forecast_6
 ~~~~~
 
 ![image](bom_forecast.png)
@@ -557,23 +557,23 @@ My Lovelace Code to display these is here:
     card:
       type: 'custom:hui-entities-card'
       entities:
-	- entity: sensor.bom_forecast_0
-	- entity: sensor.beaufort
-	  name: "${'Beaufort force:' + '\xa0'.repeat(2) + (vars[0] == 12 ? 'Hurricane Force' : vars[0] == 11 ? 'Violent Storm' : vars[0] == 10 ? 'Storm, whole gale' : vars[0] == 9 ? 'Strong/severe gale' : vars[0] == 8 ? 'Gale/ fresh gale' : vars[0] == 7 ? 'High wind, moderate/near gale' : vars[0] == 6 ? 'Strong breeze' : vars[0] == 5 ? 'Fresh breeze' : vars[0] == 4 ? 'Moderate breeze' : vars[0] == 3 ? 'Gentle breeze' : vars[0] == 2 ? 'Light breeze' : vars[0] == 1 ? 'Light air' : 'Calm')}"
-	- entity: sensor.heatindex
-	  name: "${'Heat Index:' + '\xa0'.repeat(2) + vars[2]}"
-	- entity: sensor.gosford_temp
-	  name: "${'BOM Update:' + '\xa0'.repeat(2) + ( new Date(vars[3]).toLocaleTimeString('en-US') ) + '\xa0'.repeat(2) + 'Current Temp' }"
-	- entity: sensor.illuminance
-	  type: "custom:template-entity-row"
-	  secondary: "{{ states('weather.kariong') }} weather.kariong"
-	  state: "{{ '{:,}'.format((states('sensor.illuminance'))|int) }} lx"
-	  icon: mdi:brightness-5
-	- entity: sensor.estimated_illuminance
-	  type: "custom:template-entity-row"
-	  secondary: "{{ states('weather.home') }} weather.home"
-	  state: "{{ '{:,}'.format((states('sensor.estimated_illuminance'))|int) }} lx"
-	  icon: mdi:brightness-5
+        - entity: sensor.bom_forecast_0
+        - entity: sensor.beaufort
+          name: "${'Beaufort force:' + '\xa0'.repeat(2) + (vars[0] == 12 ? 'Hurricane Force' : vars[0] == 11 ? 'Violent Storm' : vars[0] == 10 ? 'Storm, whole gale' : vars[0] == 9 ? 'Strong/severe gale' : vars[0] == 8 ? 'Gale/ fresh gale' : vars[0] == 7 ? 'High wind, moderate/near gale' : vars[0] == 6 ? 'Strong breeze' : vars[0] == 5 ? 'Fresh breeze' : vars[0] == 4 ? 'Moderate breeze' : vars[0] == 3 ? 'Gentle breeze' : vars[0] == 2 ? 'Light breeze' : vars[0] == 1 ? 'Light air' : 'Calm')}"
+        - entity: sensor.heatindex
+          name: "${'Heat Index:' + '\xa0'.repeat(2) + vars[2]}"
+        - entity: sensor.gosford_temp
+          name: "${'BOM Update:' + '\xa0'.repeat(2) + ( new Date(vars[3]).toLocaleTimeString('en-US') ) + '\xa0'.repeat(2) + 'Current Temp' }"
+        - entity: sensor.illuminance
+          type: "custom:template-entity-row"
+          secondary: "{{ states('weather.kariong') }} weather.kariong"
+          state: "{{ '{:,}'.format((states('sensor.illuminance'))|int) }} lx"
+          icon: mdi:brightness-5
+        - entity: sensor.estimated_illuminance
+          type: "custom:template-entity-row"
+          secondary: "{{ states('weather.home') }} weather.home"
+          state: "{{ '{:,}'.format((states('sensor.estimated_illuminance'))|int) }} lx"
+          icon: mdi:brightness-5
   - type: history-graph
     title: Outdoor Illuminance
     hours_to_show: 48
