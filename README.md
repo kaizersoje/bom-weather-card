@@ -3,7 +3,7 @@
 
 ## IMPORTANT CHANGES
 
-I have renamed this card to remove the emphasis on BOM. This is a generic card that works with any provider
+I have renamed this card to remove the emphasis on BOM. This is a generic card that works with any provider.
 
 NON-Australian Users: This card and docs has always been a generic card with an emphasis on BOM in Australia however it will work with ANY weather provider that can supply the sensors.
 
@@ -143,14 +143,14 @@ If you installed using HACS, the resources should be updated automatically (see 
 Note that neither /local/ of /hacsfiles/ physically exist! The directory structure is as per above.
 
 For a HACS Installation:
-~~~~
+~~~~yaml
 resources:
   - url: /hacsfiles/bom-weather-card/bom-weather-card.js
     type: module
 ~~~~
 
 For the manual installation:
-~~~~
+~~~~yaml
 resources:
   - url: /local/custom_ui/bom-weather-card.js?v=0.1
     type: module
@@ -158,7 +158,7 @@ resources:
 
 To use the package, copy weather.yaml to your packages folder as per above. Create that directory if it doesn't exist.
 Edit weather.yaml for your sensor names and ensure you include packages in configuration.yaml:
-~~~~
+~~~~yaml
 homeassistant:
   packages: !include_dir_named packages
 ~~~~
@@ -174,7 +174,7 @@ If you paste it in the raw editor or in a yaml file, take care with the indentin
 
 Required entries must be present 
 in your configuration.  The card will not work at all if any of these lines are missing. **EDIT gosford/kariong to match your observations/forecasts**
-~~~~
+~~~~yaml
 type: custom:bom-weather-card
 title: BOM Weather
 entity_current_conditions: sensor.kariong_icon_descriptor_0
@@ -212,7 +212,7 @@ Optional entries add components to the card. My BOM area (Gosford) does not incl
 
 ***Defining NEITHER/BOTH entity_pop_intensity and entity_pop_intensity_rate will give an 'Config Error' message in the pop slot if defined.
 
-~~~~
+~~~~yaml
 # entity_visibility: If provided from a different source
 entity_daytime_high: sensor.bom_today_max
 entity_daytime_low: sensor.bom_today_min
@@ -247,7 +247,7 @@ entity_fire_danger_summary: sensor.kariong_fire_danger_0
 ~~~~
 
 **Note:** The following entries require template sensors.  
-~~~~
+~~~~yaml
 entity_current_text: sensor.bom_current_text
 entity_uv_alert: sensor.bom_uv_alert
 entity_fire_danger: sensor.bom_fire_danger
@@ -260,7 +260,7 @@ NOTE ALSO that the minimum temperature 'disappears' in the early afternoon from 
 I am also parsing the ACTUAL minimum and maximum temperatures to the card rather than the forecast ones for the current day. If you don't like that, feel free to make your own sensors. (See the minimal card template for examples)
 
 These templates are EXAMPLES. Adjust and adapt as required. Up-to-date templates will always be in the templates.md file.
-~~~~~
+~~~~~yaml
 sensor:
   - platform: template
     sensors:
@@ -283,7 +283,7 @@ sensor:
 ~~~~~
 
 Flags are used to control the look and feel of the card (See below for details)
-~~~~
+~~~~yaml
 locale: en
 static_icons: false
 tooltip_bg_color: 'rgb( 75,155,239)'
@@ -399,7 +399,7 @@ If configuring with Slots please ensure to fill all available positions, the slo
 Please be aware I may update the templates and lovelace config for these cards without making a new release so if you watch this repo you will get notified when this happens.
 
 See these templates:
-~~~~~
+~~~~~yaml
 sensor:
   - platform: template
     sensors:
@@ -492,7 +492,7 @@ In the weather.yaml package, I use the statistics sensor instead of the custom a
 You can then display these on an entities card like this:
 Note this uses a custom hui_element card in case BOM isn't publishing day 6
 
-~~~~~
+~~~~~yaml
 type: entities
 title: BOM Forecast
 show_header_toggle: false
@@ -542,43 +542,43 @@ I am hoping to refine this and maybe use to assist with turning on an indoor lig
 
 My Lovelace Code to display these is here:
 (Note I am using the config-template-custom-card also in HACS by Ian)
-~~~~
-          - type: 'custom:config-template-card'
-            variables:
-              - states['sensor.beaufort'].state
-              - states['sensor.heatindex'].state
-              - states['sensor.heatindexrating'].state
-              - states['sensor.gosford_temp'].attributes['issue_time']
-            entities:
-              - sensor.beaufort
-              - sensor.heatindex
-              - sensor.heatindexrating
-              - sensor.gosford_temp
-            card:
-              type: 'custom:hui-entities-card'
-              entities:
-                - entity: sensor.bom_forecast_0
-                - entity: sensor.beaufort
-                  name: "${'Beaufort force:' + '\xa0'.repeat(2) + (vars[0] == 12 ? 'Hurricane Force' : vars[0] == 11 ? 'Violent Storm' : vars[0] == 10 ? 'Storm, whole gale' : vars[0] == 9 ? 'Strong/severe gale' : vars[0] == 8 ? 'Gale/ fresh gale' : vars[0] == 7 ? 'High wind, moderate/near gale' : vars[0] == 6 ? 'Strong breeze' : vars[0] == 5 ? 'Fresh breeze' : vars[0] == 4 ? 'Moderate breeze' : vars[0] == 3 ? 'Gentle breeze' : vars[0] == 2 ? 'Light breeze' : vars[0] == 1 ? 'Light air' : 'Calm')}"
-                - entity: sensor.heatindex
-                  name: "${'Heat Index:' + '\xa0'.repeat(2) + vars[2]}"
-                - entity: sensor.gosford_temp
-                  name: "${'BOM Update:' + '\xa0'.repeat(2) + ( new Date(vars[3]).toLocaleTimeString('en-US') ) + '\xa0'.repeat(2) + 'Current Temp' }"
-                - entity: sensor.illuminance
-                  type: "custom:template-entity-row"
-                  secondary: "{{ states('weather.kariong') }} weather.kariong"
-                  state: "{{ '{:,}'.format((states('sensor.illuminance'))|int) }} lx"
-                  icon: mdi:brightness-5
-                - entity: sensor.estimated_illuminance
-                  type: "custom:template-entity-row"
-                  secondary: "{{ states('weather.home') }} weather.home"
-                  state: "{{ '{:,}'.format((states('sensor.estimated_illuminance'))|int) }} lx"
-                  icon: mdi:brightness-5
-          - type: history-graph
-            title: Outdoor Illuminance
-            hours_to_show: 48
-            refresh_interval: 300
-            entities:
-              - sensor.illuminance
-              - sensor.estimated_illuminance
+~~~~yaml
+  - type: 'custom:config-template-card'
+    variables:
+      - states['sensor.beaufort'].state
+      - states['sensor.heatindex'].state
+      - states['sensor.heatindexrating'].state
+      - states['sensor.gosford_temp'].attributes['issue_time']
+    entities:
+      - sensor.beaufort
+      - sensor.heatindex
+      - sensor.heatindexrating
+      - sensor.gosford_temp
+    card:
+      type: 'custom:hui-entities-card'
+      entities:
+	- entity: sensor.bom_forecast_0
+	- entity: sensor.beaufort
+	  name: "${'Beaufort force:' + '\xa0'.repeat(2) + (vars[0] == 12 ? 'Hurricane Force' : vars[0] == 11 ? 'Violent Storm' : vars[0] == 10 ? 'Storm, whole gale' : vars[0] == 9 ? 'Strong/severe gale' : vars[0] == 8 ? 'Gale/ fresh gale' : vars[0] == 7 ? 'High wind, moderate/near gale' : vars[0] == 6 ? 'Strong breeze' : vars[0] == 5 ? 'Fresh breeze' : vars[0] == 4 ? 'Moderate breeze' : vars[0] == 3 ? 'Gentle breeze' : vars[0] == 2 ? 'Light breeze' : vars[0] == 1 ? 'Light air' : 'Calm')}"
+	- entity: sensor.heatindex
+	  name: "${'Heat Index:' + '\xa0'.repeat(2) + vars[2]}"
+	- entity: sensor.gosford_temp
+	  name: "${'BOM Update:' + '\xa0'.repeat(2) + ( new Date(vars[3]).toLocaleTimeString('en-US') ) + '\xa0'.repeat(2) + 'Current Temp' }"
+	- entity: sensor.illuminance
+	  type: "custom:template-entity-row"
+	  secondary: "{{ states('weather.kariong') }} weather.kariong"
+	  state: "{{ '{:,}'.format((states('sensor.illuminance'))|int) }} lx"
+	  icon: mdi:brightness-5
+	- entity: sensor.estimated_illuminance
+	  type: "custom:template-entity-row"
+	  secondary: "{{ states('weather.home') }} weather.home"
+	  state: "{{ '{:,}'.format((states('sensor.estimated_illuminance'))|int) }} lx"
+	  icon: mdi:brightness-5
+  - type: history-graph
+    title: Outdoor Illuminance
+    hours_to_show: 48
+    refresh_interval: 300
+    entities:
+      - sensor.illuminance
+      - sensor.estimated_illuminance
 ~~~~
